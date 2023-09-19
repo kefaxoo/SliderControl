@@ -51,6 +51,8 @@ open class SliderControl: UIControl {
             updateColors()
         }
     }
+    
+    open weak var delegate: SliderControlDelegate?
 
     /// The slider's current value. Ranges between `0.0` and `1.0`.
     public var value: Float {
@@ -101,6 +103,8 @@ open class SliderControl: UIControl {
         super.touchesBegan(touches, with: event)
 
         enlargeTrack()
+        
+        self.delegate?.valueBeganChange(self.value)
     }
 
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -135,6 +139,8 @@ open class SliderControl: UIControl {
             if isContinuous {
                 sendActions(for: .valueChanged)
             }
+            
+            self.delegate?.valueChanging(self.value)
         }
     }
 
@@ -143,6 +149,8 @@ open class SliderControl: UIControl {
 
         reduceTrack()
 
+        self.delegate?.valueDidChange(self.value)
+        
         if hasPreviousSessionChangedProgress {
             hasPreviousSessionChangedProgress = false
             sendActions(for: .valueChanged)
@@ -158,6 +166,8 @@ open class SliderControl: UIControl {
             hasPreviousSessionChangedProgress = false
             sendActions(for: .valueChanged)
         }
+        
+        self.delegate?.valueDidNotChange()
     }
 
     private func setup() {
