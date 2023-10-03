@@ -104,7 +104,7 @@ open class SliderControl: UIControl {
 
         enlargeTrack()
         
-        self.delegate?.valueBeganChange(self.value)
+        self.delegate?.valueBeganChange(self.value, tag: self.tag)
     }
 
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -140,7 +140,7 @@ open class SliderControl: UIControl {
                 sendActions(for: .valueChanged)
             }
             
-            self.delegate?.valueChanging(self.value)
+            self.delegate?.valueChanging(self.value, tag: self.tag)
         }
     }
 
@@ -149,7 +149,7 @@ open class SliderControl: UIControl {
 
         reduceTrack()
 
-        self.delegate?.valueDidChange(self.value)
+        self.delegate?.valueDidChange(self.value, tag: self.tag)
         
         if hasPreviousSessionChangedProgress {
             hasPreviousSessionChangedProgress = false
@@ -167,7 +167,7 @@ open class SliderControl: UIControl {
             sendActions(for: .valueChanged)
         }
         
-        self.delegate?.valueDidNotChange()
+        self.delegate?.valueDidNotChange(tag: self.tag)
     }
 
     private func setup() {
